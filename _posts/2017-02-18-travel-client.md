@@ -2,16 +2,14 @@
 layout: post
 title:  "Travel API client in Elixir"
 date:   2017-02-18 08:00:00 +0100
-categories: api elixir travel
+categories: elixir api
 ---
 
-In this post I would like to share my experience in how to start a travel project. And in travel it is all about integration. You integrate various flight, hotel, and payment providers and build your service on top of this.
+In this post I would like to show you how to start a travel project. In travel it is all about integration. You integrate various flights, hotels, and payments providers and build your service on top of this. So, to start I created a simple API client that you can use as a template in your future work.
 
-I have implemented a simple API client and would like to explain how it works.
+Without going into much details about implementation, we will cover only main parts. You should be able to find the whole project in Github -- [travel_client](https://github.com/misha-slyusarev/travel_cllient). Try to download and run the client before further reading.
 
-I will not go into much details about implementation, will cover only main parts. You should be able to find the whole project in Github -- [travel_client](https://github.com/misha-slyusarev/travel_cllient). Try to download and run the client before further reading.
-
-API that is consumed provided by [Skypicker.com](http://docs.skypickerpublicapi.apiary.io/#reference) and you can freely use it to get booking information regarding flights. You will have to become a partner to proceed with booking, though. So, let's start.
+Consumed API provided by [Skypicker.com](http://docs.skypickerpublicapi.apiary.io/#reference) and you can freely use it to get flights information. You will have to become a partner to proceed with booking, though.
 
 ### Application workflow
 
@@ -23,7 +21,9 @@ Then the tool converts received data to internal representation. And it could fi
 - _Convert_ to internal format
 - _Output_ (or save to DB)
 
-It's probably the most common workflow for applications like this. I skipped use of database, though, for sake of simplicity. And we will be displaying converted response right in the console. In Elixir you can outline the workflow in very clear manner:
+It's probably the most common workflow for API clients like this. I skipped the use of database, though, for sake of simplicity. And it will be displaying converted response right in the console. You can check on some wrappers like [ecto](https://github.com/elixir-ecto/ecto), for example, to make it talk to the database.
+
+In Elixir you can outline the workflow in very clear manner (`lib/travel_client.ex`):
 
 {% highlight elixir %}
 def process({from, to, from_date, to_date}) do
@@ -36,7 +36,7 @@ end
 
 ### Fetch flights
 
-Interaction with the API is done in `lib/travel_client/api.ex`. We get the request data prepared and then pass it down to `HTTPoison.get` function.
+Interaction with the API is done in `lib/travel_client/api.ex`. We get the request data prepared and then pass it down to `HTTPoison` library.
 
 {% highlight elixir %}
 def fetch(from, to, from_date, to_date) do
@@ -47,13 +47,13 @@ def fetch(from, to, from_date, to_date) do
 end
 {% endhighlight %}
 
-To process a response there is `handle_response` function that checks the response status code and parses the response body.
+To process a response there is `handle_response` function that checks the status code and parses the body.
 
 We limit a number of possible options providing constant duration for the trip.
 
 {% highlight elixir %}
 defmodule TravelClient.API do
-  @default_duration 7
+  @default_duration 7 # week in heaven
 ...
 {% endhighlight %}
 
@@ -73,7 +73,7 @@ defimpl String.Chars, for: Flight do
 end
 {% endhighlight %}
 
-For now we only interested in a limited set of fields, but you can explore the response and extend the struct. In the file you'll also find implementation of _String.Chars_ protocol. This lets us control the Flight representation when used in string interpolation.
+For now we only interested in a small scope of fields, but you can explore the response and the API documentation to extend the struct. In the file you'll also find implementation of _String.Chars_ protocol. This lets us control the Flight representation when used in string interpolation.
 
 Then conversion is mostly based on `extract_flights` function that goes recursively through the list of flights and create another list containing instances of the Flight structure.
 
@@ -96,9 +96,9 @@ end
 Now we can simply iterate over this list and display flights in the console.
 
 {% highlight bash %}
-$ mix run -e 'TravelClient.CLI.run(["berlin", "paris", "2017-06-21", "2017-06-28"])'
+$ ./travel_client berlin paris 2017-06-21 2017-06-28
 
-12:40:11.853 [info]  Successful request
+14:01:46.948 [info]  Successful request
 Departue | Arrival | Duration | Price (EUR)
 2017-06-23 14:10:00Z | 2017-06-23 16:05:00Z | 1h 55m | 92
 2017-06-23 14:10:00Z | 2017-06-23 16:05:00Z | 1h 55m | 95
@@ -108,4 +108,4 @@ Departue | Arrival | Duration | Price (EUR)
 
 ### Summary
 
-Obviously, there is room for more functionality in this application. So feel free to fork the project and start building your very own API client.
+Obviously, there is much more room for functionality in this application. And it is just a basic implementation to show you the idea. So, feel free to fork the project and start building your very own API client.
