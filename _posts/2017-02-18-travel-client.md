@@ -75,7 +75,7 @@ end
 
 For now we only interested in a small scope of fields, but you can explore the response and the API documentation to extend the struct. In the file you'll also find implementation of _String.Chars_ protocol. This lets us control the Flight representation when used in string interpolation.
 
-Then conversion is mostly based on `extract_flights` function that goes recursively through the list of flights and create another list containing instances of the Flight structure.
+Then conversion is mostly based on `extract_flights` function that goes recursively through the list of flights and creates another list containing instances of the Flight structure.
 
 {% highlight elixir %}
 def extract_flights([]), do: []
