@@ -4,4 +4,4 @@ title: About
 permalink: /about/
 ---
 
-LinkedIn progile: https://www.linkedin.com/in/mishaslyusarev
+Check out my [LinkedIn profile](https://www.linkedin.com/in/mishaslyusarev) to get in touch.
