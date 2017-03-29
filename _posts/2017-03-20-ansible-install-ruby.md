@@ -7,7 +7,7 @@ categories: devops ansible
 
 ### Install and configure Ansible
 
-I'm using OSX so brew is the `best` way to install Ansible. Please refer to the [documentation](http://docs.ansible.com/ansible/intro_installation.html#installing-the-control-machine) to find out how to install it in your system.
+I'm using OSX so `brew`is the best way to install Ansible. Please refer to [documentation](http://docs.ansible.com/ansible/intro_installation.html#installing-the-control-machine) to find out how to install it in your system.
 
 You will need to have ssh access to a linux machine, so that Ansible can login to it and run instructions from a playbook. It doesn't need to have _a client_ installed on the machine, since it just uses bash to run the commands. In my case it will be an Ubuntu server with IP address 36.137.17.20.
 
