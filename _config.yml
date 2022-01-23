@@ -25,9 +25,10 @@ github_username:  misha-slyusarev
 
 # Build settings
 markdown: kramdown
-theme: minima
-gems:
+remote_theme: andrewhwanpark/dark-poole
+plugins:
   - jekyll-feed
+  - jekyll-remote-theme
 exclude:
   - Gemfile
   - Gemfile.lock
