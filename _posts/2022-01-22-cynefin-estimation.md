@@ -25,7 +25,7 @@ It offers five categories, starting with Simple, in which operations and procedu
 
 ## Ground rules
 
-Let's skip disorder and define ground rules in the other four categories while building on how much we don't know about a task.
+Let's skip disorder for the sake of simplicity and define ground rules in the other four categories while building on how much we don't know about a task.
 
  - We define a **simple** task as a task that doesn't have unknowns. Implementation of such a task is merely following a step-by-step instruction that must be outlined in the ticket.
     
